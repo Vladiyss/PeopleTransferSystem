@@ -1,13 +1,16 @@
 package by.vladiyss.transferSystem.domain;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Floor {
     private final int id;
-    private Queue<Person> upPeopleQueue = new LinkedList<>();
-    private Queue<Person> downPeopleQueue = new LinkedList<>();
+    private BlockingQueue<Person> upPeopleQueue = new LinkedBlockingQueue<>();
+    private BlockingQueue<Person> downPeopleQueue = new LinkedBlockingQueue<>();
 
 
     public Floor(int id) {
@@ -18,20 +21,26 @@ public class Floor {
         return id;
     }
 
-    public Queue<Person> getUpPeopleQueue() {
+    public BlockingQueue<Person> getUpPeopleQueue() {
         return upPeopleQueue;
     }
 
-    public Queue<Person> getDownPeopleQueue() {
+    public BlockingQueue<Person> getDownPeopleQueue() {
         return downPeopleQueue;
     }
 
-    public void addPeopleToUpPeopleQueue(Queue<Person> newUpPeopleQueue) {
+    /*
+    public void addPeopleToUpPeopleQueue(Collection<Person> newUpPeopleQueue) {
         this.upPeopleQueue.addAll(newUpPeopleQueue);
     }
 
-    public void addPeopleToDownPeopleQueue(Queue<Person> newDownPeopleQueue) {
+    public void addPeopleToDownPeopleQueue(Collection<Person> newDownPeopleQueue) {
         this.downPeopleQueue.addAll(newDownPeopleQueue);
+    }
+     */
+
+    public void addPeopleToPeopleQueue(BlockingQueue<Person> blockingQueue, Collection<Person> newDownPeopleQueue) {
+        blockingQueue.addAll(newDownPeopleQueue);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package by.vladiyss.transferSystem.building.provider.component.floor;
 
-import by.vladiyss.transferSystem.building.provider.ComponentProvider;
+import by.vladiyss.transferSystem.building.provider.component.ComponentProvider;
 import by.vladiyss.transferSystem.domain.Floor;
 
 import java.util.List;

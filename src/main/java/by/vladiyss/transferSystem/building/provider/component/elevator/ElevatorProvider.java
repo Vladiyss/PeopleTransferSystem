@@ -1,6 +1,6 @@
 package by.vladiyss.transferSystem.building.provider.component.elevator;
 
-import by.vladiyss.transferSystem.building.provider.ComponentProvider;
+import by.vladiyss.transferSystem.building.provider.component.ComponentProvider;
 import by.vladiyss.transferSystem.domain.Elevator;
 
 import java.util.List;
@@ -17,6 +17,7 @@ public class ElevatorProvider implements ComponentProvider<Elevator> {
         this.elevatorInformationPart = elevatorInformationPart;
     }
 
+    @Override
     public List<Elevator> provide() {
         List<Elevator> elevators;
 
