@@ -9,11 +9,18 @@ public class Elevator {
     private final int openCloseDoorsTime;         //Millis
 
 
+
+    private int currentFloor;
+    private boolean isBusy;
+    private boolean isUp;
+
     public Elevator(int id, int capacity, int drivingBetweenFloorsTime, int openCloseDoorsTime) {
         this.id = id;
         this.capacity = capacity;
         this.drivingBetweenFloorsTime = drivingBetweenFloorsTime;
         this.openCloseDoorsTime = openCloseDoorsTime;
+
+        currentFloor = 0;
     }
 
     public int getId() {
@@ -30,6 +37,20 @@ public class Elevator {
 
     public int getOpenCloseDoorsTime() {
         return openCloseDoorsTime;
+    }
+
+
+    //TODO concurrent
+    public int getCurrentFloor() {
+        return currentFloor;
+    }
+
+    public boolean isBusy() {
+        return isBusy;
+    }
+
+    public boolean isUp() {
+        return isUp;
     }
 
     @Override
