@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
@@ -76,18 +77,24 @@ public class ElevatorController extends Thread {
         return peopleListPosition;
     }
 
-    private int processPeopleTransferRequest(BlockingQueue<Person> peopleQueue, boolean isUpTransfer) {
+    @SneakyThrows
+    private boolean processPeopleTransferRequest(BlockingQueue<Person> peopleQueue, boolean isUpTransfer) {
         if (peopleQueue.isEmpty()) {
-            return 0;
+            return false;
         }
 
         List<Person> peopleInQueue = new ArrayList<>(peopleQueue);
         Elevator chosenElevatorToDoTransfer = chooseTheMostSuitableElevatorToDoTransfer(isUpTransfer);
         int numberOfPeopleToTransfer = definePossibleNumberOfPeopleToTransfer(peopleInQueue, chosenElevatorToDoTransfer);
 
-        //Give the task to chosen elevator
-    }
+        List<Person> peopleToTransfer = peopleInQueue.subList(0, numberOfPeopleToTransfer);
+        ElevatorTransferTask transferTask = new ElevatorTransferTask(UUID.randomUUID(),
+                isUpTransfer, peopleToTransfer, peopleQueue);
+        chosenElevatorToDoTransfer.getTransferTasks().put(transferTask);
+        chosenElevatorToDoTransfer.getTransferTasks().notify();
 
+        return true;
+    }
 
 
     @SneakyThrows
