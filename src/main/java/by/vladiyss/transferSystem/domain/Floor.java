@@ -9,9 +9,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Floor {
     private final int id;
-    private BlockingQueue<Person> upPeopleQueue = new LinkedBlockingQueue<>();
-    private BlockingQueue<Person> downPeopleQueue = new LinkedBlockingQueue<>();
-
+    private final BlockingQueue<Person> upPeopleQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Person> downPeopleQueue = new LinkedBlockingQueue<>();
 
     public Floor(int id) {
         this.id = id;
@@ -28,16 +27,6 @@ public class Floor {
     public BlockingQueue<Person> getDownPeopleQueue() {
         return downPeopleQueue;
     }
-
-    /*
-    public void addPeopleToUpPeopleQueue(Collection<Person> newUpPeopleQueue) {
-        this.upPeopleQueue.addAll(newUpPeopleQueue);
-    }
-
-    public void addPeopleToDownPeopleQueue(Collection<Person> newDownPeopleQueue) {
-        this.downPeopleQueue.addAll(newDownPeopleQueue);
-    }
-     */
 
     public void addPeopleToPeopleQueue(BlockingQueue<Person> blockingQueue, Collection<Person> newDownPeopleQueue) {
         blockingQueue.addAll(newDownPeopleQueue);

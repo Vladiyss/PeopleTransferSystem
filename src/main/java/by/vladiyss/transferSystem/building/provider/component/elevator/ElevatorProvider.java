@@ -1,7 +1,7 @@
 package by.vladiyss.transferSystem.building.provider.component.elevator;
 
 import by.vladiyss.transferSystem.building.provider.component.ComponentProvider;
-import by.vladiyss.transferSystem.domain.Elevator;
+import by.vladiyss.transferSystem.domain.elevator.Elevator;
 
 import java.util.List;
 import java.util.stream.Collectors;

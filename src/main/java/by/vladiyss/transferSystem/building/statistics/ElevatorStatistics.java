@@ -2,14 +2,20 @@ package by.vladiyss.transferSystem.building.statistics;
 
 public class ElevatorStatistics {
 
+    protected final int id;
     protected int generalTransferredPeopleNumber;
     protected double totalTransferredPeopleWeight;
     protected int totalTransfersNumber;
 
-    public ElevatorStatistics() {
+    public ElevatorStatistics(int id) {
+        this.id = id;
         generalTransferredPeopleNumber = 0;
         totalTransferredPeopleWeight = 0.0;
         totalTransfersNumber = 0;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public synchronized int getGeneralTransferredPeopleNumber() {
@@ -24,12 +30,12 @@ public class ElevatorStatistics {
         return totalTransfersNumber;
     }
 
-    public synchronized void incrementGeneralTransferredPeopleNumber(int transferedPeopleNumber) {
-        this.generalTransferredPeopleNumber += transferedPeopleNumber;
+    public synchronized void incrementGeneralTransferredPeopleNumber(int transferredPeopleNumber) {
+        this.generalTransferredPeopleNumber += transferredPeopleNumber;
     }
 
-    public synchronized void incrementTotalTransferredPeopleWeight(double transferedPeopleWeight) {
-        this.totalTransferredPeopleWeight += transferedPeopleWeight;
+    public synchronized void incrementTotalTransferredPeopleWeight(double transferredPeopleWeight) {
+        this.totalTransferredPeopleWeight += transferredPeopleWeight;
     }
 
     public synchronized void incrementTotalTransfersNumber(int transfersNumber) {

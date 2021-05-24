@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Person {
+
     private final UUID id;
     private final double weight;
     private final int requiredFloor;

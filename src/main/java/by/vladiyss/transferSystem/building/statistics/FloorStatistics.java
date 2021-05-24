@@ -2,16 +2,22 @@ package by.vladiyss.transferSystem.building.statistics;
 
 public class FloorStatistics {
 
+    private final int id;
     private int upTransferredPeopleNumber;
     private int downTransferredPeopleNumber;
     private int upTransfersNumber;
     private int downTransfersNumber;
 
-    public FloorStatistics() {
+    public FloorStatistics(int id) {
+        this.id = id;
         upTransferredPeopleNumber = 0;
         downTransferredPeopleNumber = 0;
         upTransfersNumber = 0;
         downTransfersNumber = 0;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public synchronized int getUpTransferredPeopleNumber() {

@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GeneralBuildingStatistics {
 
-    private final Map<Integer, ElevatorStatistics> elevatorsStatistics;
-    private final Map<Integer, FloorStatistics> floorsStatistics;
+    private Map<Integer, ElevatorStatistics> elevatorsStatistics;
+    private Map<Integer, FloorStatistics> floorsStatistics;
     private final List<BetweenFloorsTransfersStatistics> betweenFloorsTransfersStatisticsList;
 
-    public GeneralBuildingStatistics() {
+    public GeneralBuildingStatistics(int elevatorsNumber, int floorsNumber) {
         elevatorsStatistics = new HashMap<>();
         floorsStatistics = new HashMap<>();
         betweenFloorsTransfersStatisticsList = new ArrayList<>();
+        setElevatorsStatisticsElements(elevatorsNumber);
+        setFloorsStatisticsElements(floorsNumber);
     }
 
     public Map<Integer, ElevatorStatistics> getElevatorsStatistics() {
@@ -33,11 +38,21 @@ public class GeneralBuildingStatistics {
         betweenFloorsTransfersStatisticsList.add(element);
     }
 
-    public void setElevatorsStatisticsElements(int elevatorsNumber) {
+    private void setElevatorsStatisticsElements(int elevatorsNumber) {
+        List<ElevatorStatistics> elevatorStatisticsList = IntStream.range(0, elevatorsNumber)
+                .mapToObj(ElevatorStatistics::new)
+                .collect(Collectors.toList());
 
+        elevatorsStatistics = elevatorStatisticsList.stream()
+                .collect(Collectors.toMap(ElevatorStatistics::getId, Function.identity()));
     }
 
-    public void setFloorsStatisticsElements(int floorsNumber) {
+    private void setFloorsStatisticsElements(int floorsNumber) {
+        List<FloorStatistics> floorStatisticsList = IntStream.range(0, floorsNumber)
+                .mapToObj(FloorStatistics::new)
+                .collect(Collectors.toList());
 
+        floorsStatistics = floorStatisticsList.stream()
+                .collect(Collectors.toMap(FloorStatistics::getId, Function.identity()));
     }
 }

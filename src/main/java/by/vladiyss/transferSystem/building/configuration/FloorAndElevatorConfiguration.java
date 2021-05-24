@@ -7,17 +7,16 @@ public class FloorAndElevatorConfiguration {
     private static final int FLOORS_MINIMUM_NUMBER = 4;
     private static final int ELEVATORS_MINIMUM_NUMBER = 4;
 
-    private static final int RAW_FLOORS_MAXIMUM_NUMBER = 30;
+    private static final int RAW_FLOORS_MAXIMUM_NUMBER = 20;
     private static final int RAW_ELEVATORS_MAXIMUM_NUMBER = 8;
 
     private final Random random = new Random();
 
-    private final int floorsNumber;
-    private final int elevatorsNumber;
+    private int floorsNumber;
+    private int elevatorsNumber;
 
     public FloorAndElevatorConfiguration() {
-        this.floorsNumber = random.nextInt(RAW_FLOORS_MAXIMUM_NUMBER) + FLOORS_MINIMUM_NUMBER;
-        this.elevatorsNumber = random.nextInt(RAW_ELEVATORS_MAXIMUM_NUMBER) + ELEVATORS_MINIMUM_NUMBER;
+        generateRandomValuesForFloorsAndelevatorsNumber();
     }
 
     public int getFloorsNumber() {
@@ -26,6 +25,11 @@ public class FloorAndElevatorConfiguration {
 
     public int getElevatorsNumber() {
         return elevatorsNumber;
+    }
+
+    private void generateRandomValuesForFloorsAndelevatorsNumber() {
+        floorsNumber = random.nextInt(RAW_FLOORS_MAXIMUM_NUMBER) + FLOORS_MINIMUM_NUMBER;
+        elevatorsNumber = random.nextInt(RAW_ELEVATORS_MAXIMUM_NUMBER) + ELEVATORS_MINIMUM_NUMBER;
     }
 
     @Override
