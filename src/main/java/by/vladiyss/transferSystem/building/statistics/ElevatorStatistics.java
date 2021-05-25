@@ -38,8 +38,8 @@ public class ElevatorStatistics {
         this.totalTransferredPeopleWeight += transferredPeopleWeight;
     }
 
-    public synchronized void incrementTotalTransfersNumber(int transfersNumber) {
-        this.totalTransfersNumber += transfersNumber;
+    public synchronized void incrementTotalTransfersNumber() {
+        this.totalTransfersNumber++;
     }
 }
 

@@ -76,7 +76,7 @@ public class ElevatorControllerManager {
 
         List<Person> peopleToTransfer = peopleInQueue.subList(0, numberOfPeopleToTransfer);
         ElevatorTransferTask transferTask = new ElevatorTransferTask(UUID.randomUUID(),
-                isUpTransfer, peopleToTransfer, peopleQueue);
+                isUpTransfer, peopleToTransfer, peopleQueue, chosenElevatorToDoTransfer);
         chosenElevatorToDoTransfer.getTransferTasks().put(transferTask);
         chosenElevatorToDoTransfer.getTransferTasks().notify();
     }

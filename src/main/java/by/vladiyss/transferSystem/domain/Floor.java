@@ -1,5 +1,7 @@
 package by.vladiyss.transferSystem.domain;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -7,6 +9,7 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+@Slf4j
 public class Floor {
     private final int id;
     private final BlockingQueue<Person> upPeopleQueue = new LinkedBlockingQueue<>();
@@ -14,6 +17,7 @@ public class Floor {
 
     public Floor(int id) {
         this.id = id;
+        log.debug("FLOOR --- Generated --- {}", this);
     }
 
     public int getId() {
@@ -29,7 +33,10 @@ public class Floor {
     }
 
     public void addPeopleToPeopleQueue(BlockingQueue<Person> blockingQueue, Collection<Person> newDownPeopleQueue) {
+        log.debug("FLOOR --- Before adding new people --- {}", this);
+        log.debug("FLOOR --- New people is to be in {} queue --- {}", blockingQueue, this);
         blockingQueue.addAll(newDownPeopleQueue);
+        log.debug("FLOOR --- After adding new people --- {}", this);
     }
 
     @Override

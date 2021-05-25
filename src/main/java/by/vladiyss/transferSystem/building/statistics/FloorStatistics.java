@@ -44,11 +44,11 @@ public class FloorStatistics {
         this.downTransferredPeopleNumber += downTransferredPeopleNum;
     }
 
-    public synchronized void incrementUpTransfersNumber(int upTransfersNum) {
-        this.upTransfersNumber += upTransfersNum;
+    public synchronized void incrementUpTransfersNumber() {
+        this.upTransfersNumber++;
     }
 
-    public synchronized void incrementDownTransfersNumber(int downTransfersNum) {
-        this.downTransfersNumber += downTransfersNum;
+    public synchronized void incrementDownTransfersNumber() {
+        this.downTransfersNumber++;
     }
 }

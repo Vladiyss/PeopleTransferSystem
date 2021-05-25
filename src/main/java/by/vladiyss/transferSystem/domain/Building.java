@@ -4,12 +4,15 @@ import by.vladiyss.transferSystem.building.configuration.FloorAndElevatorConfigu
 import by.vladiyss.transferSystem.building.provider.component.elevator.ElevatorInformationPart;
 import by.vladiyss.transferSystem.building.provider.component.elevator.ElevatorProvider;
 import by.vladiyss.transferSystem.building.provider.component.floor.FloorProvider;
+import by.vladiyss.transferSystem.building.statistics.GeneralBuildingStatistics;
 import by.vladiyss.transferSystem.domain.elevator.Elevator;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 public class Building {
 
     private final List<Floor> floors;
@@ -25,9 +28,16 @@ public class Building {
     }
 
     public Building(List<Floor> floors, List<Elevator> elevators) {
+        log.debug("BUILDING --- Creating");
         floorAndElevatorConfiguration = new FloorAndElevatorConfiguration();
-        this.floors = new ArrayList<>(generateFloorsForBuilding(floorAndElevatorConfiguration.getFloorsNumber()));
-        this.elevators = new ArrayList<>(generateElevatorsForBuilding(floorAndElevatorConfiguration.getElevatorsNumber()));
+        int floorsNumber = floorAndElevatorConfiguration.getFloorsNumber();
+        this.floors = new ArrayList<>(generateFloorsForBuilding(floorsNumber));
+        log.debug("BUILDING --- Generated {} floors --- {}", this.floors.size(), this.floors);
+
+        this.elevators = new ArrayList<>(generateElevatorsForBuilding(floorAndElevatorConfiguration.getElevatorsNumber(),
+                floorsNumber));
+        log.debug("BUILDING --- Generated {} elevators --- {}", this.elevators.size(), this.elevators);
+        log.debug("BUILDING --- Created");
     }
 
     private List<Floor> generateFloorsForBuilding(int floorsNumber) {
@@ -35,9 +45,9 @@ public class Building {
         return floorProvider.provide();
     }
 
-    private List<Elevator> generateElevatorsForBuilding(int elevatorsNumber) {
-        ElevatorInformationPart elevatorInformationPart = new ElevatorInformationPart();
-        ElevatorProvider elevatorProvider = new ElevatorProvider(elevatorsNumber, elevatorInformationPart);
+    private List<Elevator> generateElevatorsForBuilding(int elevatorsNumber, int floorsNumber) {
+        GeneralBuildingStatistics generalBuildingStatistics = new GeneralBuildingStatistics(elevatorsNumber, floorsNumber);
+        ElevatorProvider elevatorProvider = new ElevatorProvider(elevatorsNumber, generalBuildingStatistics);
         return elevatorProvider.provide();
     }
 

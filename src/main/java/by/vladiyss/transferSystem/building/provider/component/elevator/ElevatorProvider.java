@@ -1,7 +1,9 @@
 package by.vladiyss.transferSystem.building.provider.component.elevator;
 
 import by.vladiyss.transferSystem.building.provider.component.ComponentProvider;
+import by.vladiyss.transferSystem.building.statistics.GeneralBuildingStatistics;
 import by.vladiyss.transferSystem.domain.elevator.Elevator;
+import by.vladiyss.transferSystem.domain.elevator.ElevatorManager;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,10 +13,14 @@ public class ElevatorProvider implements ComponentProvider<Elevator> {
 
     private final int elevatorsNumber;
     private final ElevatorInformationPart elevatorInformationPart;
+    private final ElevatorManager elevatorManager;
+    private final GeneralBuildingStatistics generalBuildingStatistics;
 
-    public ElevatorProvider(int elevatorsNumber, ElevatorInformationPart elevatorInformationPart) {
+    public ElevatorProvider(int elevatorsNumber, GeneralBuildingStatistics generalBuildingStatistics) {
         this.elevatorsNumber = elevatorsNumber;
-        this.elevatorInformationPart = elevatorInformationPart;
+        this.generalBuildingStatistics = generalBuildingStatistics;
+        elevatorInformationPart = new ElevatorInformationPart();
+        elevatorManager = new ElevatorManager(this.generalBuildingStatistics);
     }
 
     @Override
@@ -25,7 +31,8 @@ public class ElevatorProvider implements ComponentProvider<Elevator> {
                 .mapToObj(i -> new Elevator(i,
                         elevatorInformationPart.getRandomCapacity(),
                         elevatorInformationPart.getRandomDrivingBetweenFloorsTime(),
-                        elevatorInformationPart.getRandomOpenCloseDoorsTime()) )
+                        elevatorInformationPart.getRandomOpenCloseDoorsTime(),
+                        elevatorManager))
                 .collect(Collectors.toList());
 
         return elevators;

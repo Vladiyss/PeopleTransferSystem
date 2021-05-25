@@ -1,8 +1,11 @@
 package by.vladiyss.transferSystem.domain;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Objects;
 import java.util.UUID;
 
+@Slf4j
 public class Person {
 
     private final UUID id;
@@ -15,6 +18,7 @@ public class Person {
         this.weight = weight;
         this.requiredFloor = requiredFloor;
         this.originalFloor = originalFloor;
+        log.debug("PERSON --- Generated --- {}", this);
     }
 
     public UUID getId() {

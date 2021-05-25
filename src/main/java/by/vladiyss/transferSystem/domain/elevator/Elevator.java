@@ -3,6 +3,7 @@ package by.vladiyss.transferSystem.domain.elevator;
 import by.vladiyss.transferSystem.building.controller.ElevatorTransferTask;
 import by.vladiyss.transferSystem.domain.Person;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Slf4j
 public class Elevator extends Thread{
     private final int id;
     private final int capacity;
@@ -25,9 +27,10 @@ public class Elevator extends Thread{
 
     private boolean isWorking;
 
-    private BlockingQueue<ElevatorTransferTask> transferTasks;
+    private final ElevatorManager elevatorManager;
+    private final BlockingQueue<ElevatorTransferTask> transferTasks;
 
-    public Elevator(int id, int capacity, int drivingBetweenFloorsTime, int openCloseDoorsTime) {
+    public Elevator(int id, int capacity, int drivingBetweenFloorsTime, int openCloseDoorsTime, ElevatorManager elevatorManager) {
         this.id = id;
         this.capacity = capacity;
         this.drivingBetweenFloorsTime = drivingBetweenFloorsTime;
@@ -36,7 +39,9 @@ public class Elevator extends Thread{
         currentFloor = 0;
         isBusy = false;
         isUp = false;
+        this.elevatorManager = elevatorManager;
         transferTasks = new LinkedBlockingQueue<>();
+        log.debug("ELEVATOR --- Generated --- {}", this);
     }
 
     public int getElevatorId() {
@@ -92,99 +97,10 @@ public class Elevator extends Thread{
     }
 
     @SneakyThrows
-    private void openCloseDoors() {
-        TimeUnit.MILLISECONDS.sleep(openCloseDoorsTime + openCloseDoorsTime);
-    }
-
-    private void achieveRequiredFloorToTakePeople(int requiredFloor) {
-        int floorsNumberDifference = Math.abs(currentFloor - requiredFloor);
-        boolean isDestinationFloorUpper = requiredFloor - currentFloor > 0;
-        isUp = isDestinationFloorUpper;
-
-        IntStream.range(0, floorsNumberDifference)
-                .forEach((i) -> {
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(drivingBetweenFloorsTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (isDestinationFloorUpper) {
-                        currentFloor++;
-                    }
-                    else {
-                        currentFloor--;
-                    }
-                });
-    }
-
-    private void doMotion(int endFloor, boolean isUpTrip) {
-        int floorsNumberDifference = Math.abs(currentFloor - endFloor);
-
-        IntStream.range(0, floorsNumberDifference)
-                .forEach((i) -> {
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(drivingBetweenFloorsTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (isUpTrip) {
-                        currentFloor++;
-                    }
-                    else {
-                        currentFloor--;
-                    }
-                });
-    }
-
-    @SneakyThrows
-    private boolean processTransferTask(ElevatorTransferTask transferTask) {
-
-        achieveRequiredFloorToTakePeople(transferTask.getPeopleToTransfer().get(0).getOriginalFloor());
-
-        isUp = transferTask.isUpTransfer();
-        TimeUnit.MILLISECONDS.sleep(openCloseDoorsTime);
-        IntStream.range(0, transferTask.getPeopleToTransfer().size())
-                .forEachOrdered((i) -> {
-                    try {
-                        transferTask.getQueueToTakePeople().take();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                });
-        TimeUnit.MILLISECONDS.sleep(openCloseDoorsTime);
-
-        final List<Integer> requiredFloorsOfPeople = transferTask.getPeopleToTransfer().stream()
-                //.sorted(Comparator.comparing(Person::getRequiredFloor))
-                .mapToInt(Person::getRequiredFloor)
-                .distinct()
-                .boxed()
-                .collect(Collectors.toList());
-
-
-        if (!isUp) {
-            requiredFloorsOfPeople.sort(Comparator.comparing(Integer::intValue).reversed());
-        }
-        else {
-            requiredFloorsOfPeople.sort(Comparator.comparing(Integer::intValue));
-        }
-
-        requiredFloorsOfPeople.stream()
-        //IntStream.range(0, requiredFloorsOfPeople.size())
-                .forEachOrdered((i) -> {
-                    doMotion(i, isUp);
-                    openCloseDoors();
-                });
-        
-        
-        return true;
-    }
-
-    @SneakyThrows
     @Override
     public void run() {
         isWorking = true;
+        log.debug("ELEVATOR --- Starts to move --- {}", this);
 
         while (isWorking) {
 
@@ -193,9 +109,10 @@ public class Elevator extends Thread{
             }
 
             isBusy = true;
-            boolean transferTaskResult = processTransferTask(transferTasks.take());
+            boolean transferTaskResult = elevatorManager.processTransferTask(this, transferTasks.take());
             isBusy = false;
         }
+        log.debug("ELEVATOR --- Stops working --- {}", this);
 
     }
 

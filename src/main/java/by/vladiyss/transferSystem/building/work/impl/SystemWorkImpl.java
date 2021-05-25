@@ -2,9 +2,11 @@ package by.vladiyss.transferSystem.building.work.impl;
 
 import by.vladiyss.transferSystem.building.work.SystemWork;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class SystemWorkImpl implements SystemWork {
 
     private boolean isWorking;
@@ -18,8 +20,11 @@ public class SystemWorkImpl implements SystemWork {
     @SneakyThrows
     public void work() {
 
+        isWorking = true;
+
         while (isWorking) {
 
+            log.debug("TRANSFER SYSTEM --- Starts working");
             //initialize system
 
             TimeUnit.SECONDS.sleep(60);
@@ -29,5 +34,7 @@ public class SystemWorkImpl implements SystemWork {
 
             isWorking = false;
         }
+
+        log.debug("TRANSFER SYSTEM --- Finishes working");
     }
 }
