@@ -75,6 +75,7 @@ public class SystemWorkImpl implements SystemWork {
     }
 
     private void startAllThreads() {
+        log.debug("TRANSFER SYSTEM --- Start of all threads");
         elevatorControllers.forEach(Thread::start);
         building.getElevators().forEach(Thread::start);
         peopleGenerators.forEach(Thread::start);
@@ -84,6 +85,7 @@ public class SystemWorkImpl implements SystemWork {
         elevatorControllers.forEach(ElevatorController::pauseElevatorController);
         building.getElevators().forEach(Elevator::pauseElevator);
         peopleGenerators.forEach(PeopleGenerator::pausePeopleGenerator);
+        log.debug("TRANSFER SYSTEM --- All threads are paused");
     }
 
     @SneakyThrows
@@ -97,6 +99,7 @@ public class SystemWorkImpl implements SystemWork {
         for (Elevator elevator : building.getElevators()) {
             elevator.join();
         }
+        log.debug("TRANSFER SYSTEM --- Joined all threads");
     }
 
     @SneakyThrows
@@ -106,12 +109,13 @@ public class SystemWorkImpl implements SystemWork {
 
         while (isWorking) {
 
-            log.debug("TRANSFER SYSTEM --- Starts working");
+            log.debug("TRANSFER SYSTEM --- Initialization");
 
             initializeSystem();
             startAllThreads();
 
             TimeUnit.SECONDS.sleep(60);
+            log.debug("TRANSFER SYSTEM --- Statistics --- {}", building.getGeneralBuildingStatistics().toString());
 
             pauseAllThreads();
             TimeUnit.SECONDS.sleep(10);

@@ -2,9 +2,11 @@ package by.vladiyss.transferSystem.building.controller;
 
 import by.vladiyss.transferSystem.domain.Floor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class ElevatorController extends Thread {
 
     private final int id;
@@ -20,6 +22,7 @@ public class ElevatorController extends Thread {
         this.underControlFloor = underControlFloor;
         this.queuesMonitor = queuesMonitor;
         this.elevatorControllerManager = elevatorControllerManager;
+        log.debug("ELEVATOR_CONTROLLER --- Generated --- {}", this);
     }
 
     public void pauseElevatorController() {
@@ -35,6 +38,7 @@ public class ElevatorController extends Thread {
     public void run() {
         isWorking = true;
 
+        log.debug("ELEVATOR_CONTROLLER --- Is starting to work --- {}", this);
         TimeUnit.SECONDS.sleep(2);
         while (isWorking) {
 
@@ -48,5 +52,14 @@ public class ElevatorController extends Thread {
             elevatorControllerManager.processPeopleTransferRequest(underControlFloor.getDownPeopleQueue(),
                     false, underControlFloor);
         }
+        log.debug("ELEVATOR_CONTROLLER --- Finished working --- {}", this);
+    }
+
+    @Override
+    public String toString() {
+        return "ElevatorController : " +
+                "id=" + id +
+                ", underControlFloor=" + underControlFloor +
+                ", queuesMonitor=" + queuesMonitor + '.';
     }
 }

@@ -55,4 +55,12 @@ public class GeneralBuildingStatistics {
         floorsStatistics = floorStatisticsList.stream()
                 .collect(Collectors.toMap(FloorStatistics::getId, Function.identity()));
     }
+
+    @Override
+    public String toString() {
+        return "GeneralBuildingStatistics : " +
+                "elevatorsStatistics=" + elevatorsStatistics +
+                ", floorsStatistics=" + floorsStatistics +
+                ", betweenFloorsTransfersStatisticsList=" + betweenFloorsTransfersStatisticsList + '.';
+    }
 }

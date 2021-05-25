@@ -1,18 +1,13 @@
 package by.vladiyss.transferSystem.domain.elevator;
 
 import by.vladiyss.transferSystem.building.controller.ElevatorTransferTask;
-import by.vladiyss.transferSystem.domain.Person;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Slf4j
 public class Elevator extends Thread{

@@ -1,7 +1,6 @@
 package by.vladiyss.transferSystem.domain;
 
 import by.vladiyss.transferSystem.building.configuration.FloorAndElevatorConfiguration;
-import by.vladiyss.transferSystem.building.provider.component.elevator.ElevatorInformationPart;
 import by.vladiyss.transferSystem.building.provider.component.elevator.ElevatorProvider;
 import by.vladiyss.transferSystem.building.provider.component.floor.FloorProvider;
 import by.vladiyss.transferSystem.building.statistics.GeneralBuildingStatistics;
@@ -63,10 +62,9 @@ public class Building {
 
     @Override
     public String toString() {
-        return "Building{" +
+        return "Building : " +
                 "floors=" + floors +
-                ", elevators=" + elevators +
-                '}';
+                ", elevators=" + elevators + '.';
     }
 
     @Override

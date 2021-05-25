@@ -2,13 +2,14 @@ package by.vladiyss.transferSystem.building.statistics;
 
 import by.vladiyss.transferSystem.building.controller.ElevatorTransferTask;
 import by.vladiyss.transferSystem.domain.Person;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class StatisticsManager {
 
     private final GeneralBuildingStatistics generalBuildingStatistics;
@@ -125,6 +126,7 @@ public class StatisticsManager {
 
     public synchronized void processWritingStatisticsRequest(ElevatorTransferTask elevatorTransferTask) {
 
+        log.debug("STATISTICS_MANAGER --- Is updating statistics --- {}", elevatorTransferTask.toString());
         writeFloorsStatistics(elevatorTransferTask);
         writeElevatorsStatistics(elevatorTransferTask);
         writeBetweenFloorsTransfersStatistics(elevatorTransferTask);

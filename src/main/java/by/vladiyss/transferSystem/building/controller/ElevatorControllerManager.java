@@ -4,12 +4,14 @@ import by.vladiyss.transferSystem.domain.elevator.Elevator;
 import by.vladiyss.transferSystem.domain.Floor;
 import by.vladiyss.transferSystem.domain.Person;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 
 import static java.util.function.Predicate.not;
 
+@Slf4j
 public class ElevatorControllerManager {
 
     private final List<Elevator> elevators;
@@ -74,8 +76,12 @@ public class ElevatorControllerManager {
                                                   boolean isUpTransfer, Floor underControlFloor) {
 
         Elevator chosenElevatorToDoTransfer = chooseTheMostSuitableElevatorToDoTransfer(underControlFloor);
+        log.debug("ELEVATOR_CONTROLLER_MANAGER --- Chosen elevator for task --- {}", chosenElevatorToDoTransfer);
+
         List<Person> peopleInQueue = new ArrayList<>(peopleQueue);
         int numberOfPeopleToTransfer = definePossibleNumberOfPeopleToTransfer(peopleInQueue, chosenElevatorToDoTransfer);
+        log.debug("ELEVATOR_CONTROLLER_MANAGER --- Defined number of people({}) to transfer from list --- {}",
+                numberOfPeopleToTransfer, peopleInQueue);
 
         List<Person> peopleToTransfer = peopleInQueue.subList(0, numberOfPeopleToTransfer);
         ElevatorTransferTask transferTask = new ElevatorTransferTask(UUID.randomUUID(),
@@ -90,6 +96,7 @@ public class ElevatorControllerManager {
             return;
         }
 
+        log.debug("ELEVATOR_CONTROLLER_MANAGER --- Starts to process new people receipt");
         prepareTransferTask(peopleQueue, isUpTransfer, underControlFloor);
     }
 }

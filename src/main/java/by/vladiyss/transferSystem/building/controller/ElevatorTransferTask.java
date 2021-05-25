@@ -26,7 +26,7 @@ public class ElevatorTransferTask {
         this.peopleToTransfer = peopleToTransfer;
         this.queueToTakePeople = queueToTakePeople;
         this.chosenElevator = chosenElevator;
-        log.debug("ELEVATOR --- Generated --- {}", this);
+        log.debug("ELEVATOR_TRANSFER_TASK --- Generated --- {}", this);
     }
 
     public UUID getId() {
@@ -55,6 +55,8 @@ public class ElevatorTransferTask {
                 "id=" + id +
                 ", isUpTransfer=" + isUpTransfer +
                 ", peopleToTransfer=" + peopleToTransfer +
-                ", queueToTakePeople=" + queueToTakePeople + '.';
+                ", queueToTakePeople=" + queueToTakePeople +
+                ", chosenElevator=" + chosenElevator +
+                '.';
     }
 }

@@ -1,9 +1,7 @@
 package by.vladiyss.transferSystem.building.provider.people;
 
-import java.util.OptionalInt;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
 public class PeopleInformationPart {
 

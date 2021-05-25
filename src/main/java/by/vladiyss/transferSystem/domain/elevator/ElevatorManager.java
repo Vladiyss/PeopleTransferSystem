@@ -33,7 +33,8 @@ public class ElevatorManager {
     }
 
     private synchronized void doMotion(Elevator elevator, int endFloor, boolean isUpTrip) {
-        log.debug("ELEVATOR --- Is moving to destination from {} to {} --- {}", elevator.getCurrentFloor(), endFloor, elevator);
+        log.debug("ELEVATOR_MANAGER --- Elevator is moving from {} floor to {}, elevator --- {}",
+                elevator.getCurrentFloor(), endFloor, elevator);
         int floorsNumberDifference = Math.abs(elevator.getCurrentFloor() - endFloor);
         elevator.setUpOption(isUpTrip);
 
@@ -49,13 +50,14 @@ public class ElevatorManager {
                     }
                 });
 
-        log.debug("ELEVATOR --- Moved to destination to {} --- {}", endFloor, elevator);
+        log.debug("ELEVATOR_MANAGER --- Elevator moved to {} floor --- {}", endFloor, elevator);
     }
 
     @SneakyThrows
     private synchronized void putPeopleFromQueueToTransfer(Elevator elevator, ElevatorTransferTask transferTask) {
 
-        log.debug("ELEVATOR --- Is taking people from queue {} --- {}", transferTask.getQueueToTakePeople(), elevator);
+        log.debug("ELEVATOR_MANAGER --- Elevator is taking people from queue {} --- {}",
+                transferTask.getQueueToTakePeople(), elevator);
         elevator.setUpOption(transferTask.isUpTransfer());
         openOrCloseDoors(elevator);
         IntStream.range(0, transferTask.getPeopleToTransfer().size())
@@ -99,21 +101,24 @@ public class ElevatorManager {
     @SneakyThrows
     public synchronized boolean processTransferTask(Elevator elevator, ElevatorTransferTask transferTask) {
 
-        log.debug("ELEVATOR --- Executes transfer task {} --- {}", transferTask, elevator);
+        log.debug("ELEVATOR_MANAGER --- Executes transfer task {} of elevator --- {}", transferTask, elevator);
         doMotion(elevator, transferTask.getPeopleToTransfer().get(0).getOriginalFloor(),
                 transferTask.getPeopleToTransfer().get(0).getOriginalFloor() - elevator.getCurrentFloor() > 0);
 
         putPeopleFromQueueToTransfer(elevator, transferTask);
 
-        log.debug("ELEVATOR --- Gets required floors to move --- {}", elevator);
+        log.debug("ELEVATOR_MANAGER --- Is Getting required floors to move for elevator --- {}", elevator);
         List<Integer> requiredFloorsOfPeople = getRequiredFloorsToStop(transferTask);
+        log.debug("ELEVATOR_MANAGER --- Got required floors {} to move for elevator --- {}", requiredFloorsOfPeople, elevator);
 
         sortRequiredFloorsToStopListAccordingToOption(requiredFloorsOfPeople, elevator.isUp());
 
         deliverPeople(requiredFloorsOfPeople, elevator);
 
+        log.debug("ELEVATOR_MANAGER --- Is starting to write statistics by elevator --- {}", elevator);
         statisticsManager.processWritingStatisticsRequest(transferTask);
 
+        log.debug("ELEVATOR_MANAGER --- Task {} is done by elevator --- {}", transferTask, elevator);
         return true;
     }
 }

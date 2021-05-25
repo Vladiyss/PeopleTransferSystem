@@ -1,15 +1,12 @@
 package by.vladiyss.transferSystem.building.provider.people;
 
 import by.vladiyss.transferSystem.domain.Floor;
-import by.vladiyss.transferSystem.domain.Person;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+@Slf4j
 public class PeopleGenerator extends Thread {
 
     private final int id;
@@ -31,6 +28,7 @@ public class PeopleGenerator extends Thread {
         this.floorsNumber = floorsNumber;
         this.queuesMonitor = queuesMonitor;
         this.peopleGenerationManager = peopleGenerationManager;
+        log.debug("PEOPLE_GENERATOR --- Created --- {}", this);
     }
 
     public boolean isWorking() {
@@ -67,6 +65,7 @@ public class PeopleGenerator extends Thread {
         isWorking = true;
         peopleInformationPart = createPeopleInformationConfiguration();
 
+        log.debug("PEOPLE_GENERATOR --- Is strarting to work --- {}", this);
         TimeUnit.SECONDS.sleep(2);
         while (isWorking) {
 
@@ -86,5 +85,14 @@ public class PeopleGenerator extends Thread {
                     .getPeopleGenerationInformation()
                     .getRandomFrequencyOfPeopleGeneration());
         }
+    }
+
+    @Override
+    public String toString() {
+        return "PeopleGenerator :" +
+                "id=" + id +
+                ", managedFloorForPeopleGeneration=" + managedFloorForPeopleGeneration +
+                ", floorsNumber=" + floorsNumber +
+                ", queuesMonitor=" + queuesMonitor + '.';
     }
 }
