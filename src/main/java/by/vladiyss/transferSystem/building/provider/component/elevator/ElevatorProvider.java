@@ -23,6 +23,10 @@ public class ElevatorProvider implements ComponentProvider<Elevator> {
         elevatorManager = new ElevatorManager(this.generalBuildingStatistics);
     }
 
+    public int getElevatorsNumber() {
+        return elevatorsNumber;
+    }
+
     @Override
     public List<Elevator> provide() {
         List<Elevator> elevators;

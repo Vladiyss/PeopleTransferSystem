@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class FloorAndElevatorConfiguration {
 
-    private static final int FLOORS_MINIMUM_NUMBER = 4;
+    private static final int FLOORS_MINIMUM_NUMBER = 5;
     private static final int ELEVATORS_MINIMUM_NUMBER = 4;
 
     private static final int RAW_FLOORS_MAXIMUM_NUMBER = 20;
@@ -16,7 +16,7 @@ public class FloorAndElevatorConfiguration {
     private int elevatorsNumber;
 
     public FloorAndElevatorConfiguration() {
-        generateRandomValuesForFloorsAndelevatorsNumber();
+        generateRandomValuesForFloorsAndElevatorsNumber();
     }
 
     public int getFloorsNumber() {
@@ -27,7 +27,7 @@ public class FloorAndElevatorConfiguration {
         return elevatorsNumber;
     }
 
-    private void generateRandomValuesForFloorsAndelevatorsNumber() {
+    private void generateRandomValuesForFloorsAndElevatorsNumber() {
         floorsNumber = random.nextInt(RAW_FLOORS_MAXIMUM_NUMBER) + FLOORS_MINIMUM_NUMBER;
         elevatorsNumber = random.nextInt(RAW_ELEVATORS_MAXIMUM_NUMBER) + ELEVATORS_MINIMUM_NUMBER;
     }

@@ -5,10 +5,7 @@ import by.vladiyss.transferSystem.domain.Floor;
 import by.vladiyss.transferSystem.domain.Person;
 import lombok.SneakyThrows;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 
 import static java.util.function.Predicate.not;
@@ -21,15 +18,21 @@ public class ElevatorControllerManager {
         this.elevators = elevators;
     }
 
+    public List<Elevator> getElevators() {
+        return List.copyOf(elevators);
+    }
+
     private synchronized Elevator chooseTheMostSuitableElevatorToDoTransfer(Floor underControlFloor) {
 
         Optional<Elevator> mostSuitableElevator;
         do {
             mostSuitableElevator = elevators.stream()
                     .filter(not(Elevator::isBusy))
-                    .min((elevator1, elevator2) -> Integer.compare(
+                    .min(Comparator.comparingInt(elevator ->
+                            Math.abs(elevator.getCurrentFloor() - underControlFloor.getId())));
+                    /*.min((elevator1, elevator2) -> Integer.compare(
                             Math.abs(elevator1.getCurrentFloor() - underControlFloor.getId()),
-                            Math.abs(elevator2.getCurrentFloor() - underControlFloor.getId()) ));
+                            Math.abs(elevator2.getCurrentFloor() - underControlFloor.getId()) ));*/
         }
         while (mostSuitableElevator.isEmpty());
 

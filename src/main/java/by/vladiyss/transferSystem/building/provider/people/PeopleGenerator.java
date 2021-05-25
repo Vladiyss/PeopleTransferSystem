@@ -14,6 +14,7 @@ public class PeopleGenerator extends Thread {
 
     private final int id;
     private final Floor managedFloorForPeopleGeneration;
+
     private boolean isWorking;
 
     private final int floorsNumber;
@@ -30,6 +31,10 @@ public class PeopleGenerator extends Thread {
         this.floorsNumber = floorsNumber;
         this.queuesMonitor = queuesMonitor;
         this.peopleGenerationManager = peopleGenerationManager;
+    }
+
+    public boolean isWorking() {
+        return isWorking;
     }
 
     public Floor getManagedFloorForPeopleGeneration() {
@@ -62,7 +67,9 @@ public class PeopleGenerator extends Thread {
         isWorking = true;
         peopleInformationPart = createPeopleInformationConfiguration();
 
+        TimeUnit.SECONDS.sleep(2);
         while (isWorking) {
+
             if (peopleGenerationManager.getPeopleGenerationInformation().getComingDownPeopleOption()) {
                 peopleGenerationManager.putPeopleToQueue(managedFloorForPeopleGeneration,
                         peopleInformationPart,
@@ -74,7 +81,7 @@ public class PeopleGenerator extends Thread {
                         managedFloorForPeopleGeneration.getUpPeopleQueue());
             }
 
-            queuesMonitor.notify();
+            queuesMonitor.notify();   //comment if run test
             TimeUnit.MILLISECONDS.sleep(peopleGenerationManager
                     .getPeopleGenerationInformation()
                     .getRandomFrequencyOfPeopleGeneration());

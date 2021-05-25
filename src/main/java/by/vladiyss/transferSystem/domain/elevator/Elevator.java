@@ -100,6 +100,7 @@ public class Elevator extends Thread{
     @Override
     public void run() {
         isWorking = true;
+        TimeUnit.SECONDS.sleep(2);
         log.debug("ELEVATOR --- Starts to move --- {}", this);
 
         while (isWorking) {

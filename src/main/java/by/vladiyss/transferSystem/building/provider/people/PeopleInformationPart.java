@@ -19,6 +19,14 @@ public class PeopleInformationPart {
         this.floorsNumber = floorsNumber;
     }
 
+    public int getOriginalFloor() {
+        return originalFloor;
+    }
+
+    public int getFloorsNumber() {
+        return floorsNumber;
+    }
+
     public UUID getPersonRandomUUID() {
         return UUID.randomUUID();
     }
@@ -28,12 +36,12 @@ public class PeopleInformationPart {
     }
 
     public int getPersonRandomRequiredFloor() {
-        OptionalInt randomRequiredFloor = IntStream.generate(ThreadLocalRandom.current()::nextInt)
-                .filter(i -> i > -1)
-                .filter(i -> i < floorsNumber)
-                .filter(i -> i != originalFloor)
-                .findAny();
-        return randomRequiredFloor.getAsInt();
+
+        int randomRequiredFloor = ThreadLocalRandom.current().nextInt(0, floorsNumber);
+        while (randomRequiredFloor == originalFloor) {
+            randomRequiredFloor = ThreadLocalRandom.current().nextInt(0, floorsNumber);
+        }
+        return randomRequiredFloor;
     }
 
 

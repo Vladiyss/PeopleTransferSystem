@@ -3,6 +3,8 @@ package by.vladiyss.transferSystem.building.controller;
 import by.vladiyss.transferSystem.domain.Floor;
 import lombok.SneakyThrows;
 
+import java.util.concurrent.TimeUnit;
+
 public class ElevatorController extends Thread {
 
     private final int id;
@@ -33,6 +35,7 @@ public class ElevatorController extends Thread {
     public void run() {
         isWorking = true;
 
+        TimeUnit.SECONDS.sleep(2);
         while (isWorking) {
 
             while (underControlFloor.getUpPeopleQueue().isEmpty() && underControlFloor.getDownPeopleQueue().isEmpty()) {

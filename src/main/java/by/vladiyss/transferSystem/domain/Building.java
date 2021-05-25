@@ -17,7 +17,9 @@ public class Building {
 
     private final List<Floor> floors;
     private final List<Elevator> elevators;
+
     private final FloorAndElevatorConfiguration floorAndElevatorConfiguration;
+    private GeneralBuildingStatistics generalBuildingStatistics;
 
     public List<Floor> getFloors() {
         return List.copyOf(floors);
@@ -27,7 +29,15 @@ public class Building {
         return List.copyOf(elevators);
     }
 
-    public Building(List<Floor> floors, List<Elevator> elevators) {
+    public FloorAndElevatorConfiguration getFloorAndElevatorConfiguration() {
+        return floorAndElevatorConfiguration;
+    }
+
+    public GeneralBuildingStatistics getGeneralBuildingStatistics() {
+        return generalBuildingStatistics;
+    }
+
+    public Building() {
         log.debug("BUILDING --- Creating");
         floorAndElevatorConfiguration = new FloorAndElevatorConfiguration();
         int floorsNumber = floorAndElevatorConfiguration.getFloorsNumber();
@@ -46,7 +56,7 @@ public class Building {
     }
 
     private List<Elevator> generateElevatorsForBuilding(int elevatorsNumber, int floorsNumber) {
-        GeneralBuildingStatistics generalBuildingStatistics = new GeneralBuildingStatistics(elevatorsNumber, floorsNumber);
+        generalBuildingStatistics = new GeneralBuildingStatistics(elevatorsNumber, floorsNumber);
         ElevatorProvider elevatorProvider = new ElevatorProvider(elevatorsNumber, generalBuildingStatistics);
         return elevatorProvider.provide();
     }

@@ -15,6 +15,10 @@ public class FloorProvider implements ComponentProvider<Floor> {
         this.floorsNumber = floorsNumber;
     }
 
+    public int getFloorsNumber() {
+        return floorsNumber;
+    }
+
     @Override
     public List<Floor> provide() {
         List<Floor> floors;
